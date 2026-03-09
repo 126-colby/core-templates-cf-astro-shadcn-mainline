@@ -1,22 +1,27 @@
 {
-  "name": "mainline-astro-template",
+  "name": "core-templates-cf-astro-shadcn-mainline",
   "type": "module",
   "version": "1.2.0",
-  "author": "shadcnblocks.com",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "wrangler dev",
     "astro": "astro",
     "lint": "eslint . --fix",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "start": "astro dev",
+    "db:generate": "drizzle-kit generate",
+    "migrate:local": "pnpm run db:generate && npx wrangler d1 migrations apply DB --local",
+    "migrate:remote": "pnpm run db:generate && npx wrangler d1 migrations apply DB --remote",
+    "deploy": "pnpm run build && pnpm run migrate:remote && npx wrangler deploy",
+    "cf-typegen": "npx wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.1.0",
     "@astrojs/mdx": "^4.3.7",
     "@astrojs/react": "^4.4.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/vercel": "^8.2.10",
     "@hookform/resolvers": "^5.2.2",
     "@nobie-org/tailwindcss-animate": "^1.0.9",
     "@radix-ui/react-accordion": "^1.2.12",
@@ -55,6 +60,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.33.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.545.0",
@@ -83,6 +89,7 @@
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.18.0",
     "astro-eslint-parser": "^1.2.2",
+    "drizzle-kit": "^0.24.0",
     "eslint": "^8.57.1",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-astro": "^0.31.4",
@@ -92,6 +99,7 @@
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.7.0",
     "tailwindcss": "^4.0.12",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "wrangler": "^4.71.0"
   }
 }
