@@ -1,20 +1,17 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
     "baseUrl": ".",
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@code/*": ["./code/*"],
-      "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@lib/*": ["./src/lib/*"]
-    },
-    "exactOptionalPropertyTypes": false,
-    "allowJs": true
+      "@/*": ["src/*"]
+    }
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["node_modules", ".vercel", ".netlify", "dist"]
+  "include": [
+    ".astro/types.d.ts",
+    "src/**/*",
+    "worker-configuration.d.ts"
+  ]
 }
