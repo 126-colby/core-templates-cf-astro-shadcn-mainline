@@ -12,8 +12,9 @@
     "start": "astro dev",
     "db:generate": "drizzle-kit generate",
     "migrate:local": "pnpm run db:generate && npx wrangler d1 migrations apply DB --local",
-    "migrate:remote": "pnpm run db:generate && npx wrangler d1 migrations apply DB --remote",
-    "deploy": "pnpm run build && pnpm run migrate:remote && npx wrangler deploy",
+    "check:d1": "node scripts/check-d1-not-inherited.mjs",
+    "migrate:remote": "node scripts/check-d1-not-inherited.mjs && pnpm run db:generate && npx wrangler d1 migrations apply DB --remote",
+    "deploy": "node scripts/check-d1-not-inherited.mjs && pnpm run build && pnpm run migrate:remote && npx wrangler deploy",
     "cf-typegen": "npx wrangler types"
   },
   "dependencies": {

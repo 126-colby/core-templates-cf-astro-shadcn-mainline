@@ -30,12 +30,38 @@
   "ai": {
     "binding": "AI",
   },
+  // A copy of this template MUST create its own D1 database. These two values are
+  // deliberately NOT a real database, so `wrangler deploy` and `wrangler d1
+  // migrations apply` both fail until someone replaces them. That failure is the
+  // feature.
+  //
+  // MEASURED 2026-11-02: `database_id` here held
+  // 0b5974cf-92af-4ab7-a83b-a28b1809e48c, which the D1 API resolves to the database
+  // named core-template-cfw-assets-astro-shadcn-mainline — this template's OWN
+  // database, 1 table, empty. So this template was not bound to anything it did not
+  // own. It is a placeholder anyway, because a template must never ship a real uuid:
+  // every app scaffolded from it inherits that binding and runs its Drizzle
+  // migrations against the template's database.
+  //
+  // The sibling that proves the cost: core-template-cfw-assets-astro-shadcn shipped
+  // d555f8ce-77c9-4c82-be80-de95b8d9c003, which is core-guardian's PRODUCTION
+  // database — the account's spend governor (123 tables, 400.2 MB). Five Workers
+  // ended up bound to it, each `wrangler.jsonc` claiming a `database_name` of its
+  // own, because `database_name` is cosmetic and only the uuid binds.
+  //
+  // `preview_database_id` is gone with it. It pointed at the same database, so it
+  // was a second way in; a placeholder there only makes `wrangler deploy` hunt for
+  // a preview database that does not exist.
+  //
+  // To set a copy up:
+  //   npx wrangler d1 create <your-app-name>
+  //   # put the returned name and uuid below, rename this package, then:
+  //   npx wrangler d1 migrations apply DB --remote
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "core-template-cfw-assets-astro-shadcn-mainline",
-      "database_id": "0b5974cf-92af-4ab7-a83b-a28b1809e48c",
-      "preview_database_id": "0b5974cf-92af-4ab7-a83b-a28b1809e48c",
+      "database_name": "REPLACE_WITH_YOUR_OWN_D1_DATABASE",
+      "database_id": "replace-me-run-wrangler-d1-create",
       "migrations_dir": "drizzle",
     },
   ],
